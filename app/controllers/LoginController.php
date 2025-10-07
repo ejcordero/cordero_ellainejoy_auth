@@ -30,6 +30,23 @@ class LoginController extends Controller {
         }
     }
 
+    public function register()
+{
+    if($this->io->method() == 'post') {
+        $username = $this->io->post('username');
+        $email = $this->io->post('email');
+        $password = $this->io->post('password');
+
+        $email_token = bin2hex(random_bytes(16)); // optional email verification
+        $this->lauth->register($username, $email, $password, $email_token);
+
+        redirect('login'); // after signup, go to login
+    } else {
+        $this->call->view('auth/register'); // display signup form
+    }
+}
+
+
     public function logout() {
         $this->lauth->set_logged_out();
         redirect('login');
