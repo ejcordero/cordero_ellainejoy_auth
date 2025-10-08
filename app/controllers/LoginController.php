@@ -51,7 +51,7 @@ public function authenticate() {
     $password = $this->io->post('password');
 
     // Fetch user from database
-    $user = $this->db->get_where('users', ['email' => $email])->row();
+    $user = $this->db->table('users')->where('email', $email)->get()->row();
 
     if($user && password_verify($password, $user->password)) {
         // Save user info in session
