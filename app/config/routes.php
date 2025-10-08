@@ -53,4 +53,6 @@ $router->get('/users/delete/{id}', 'UsersController::delete');
 $router->get('/login', 'LoginController::index');
 $router->get('/logout', 'LoginController::logout');
 $router->match('/register', 'LoginController::register', ['GET','POST']);
+$router->match('/login/authenticate', 'LoginController::authenticate', ['GET', 'POST']);
+
 

@@ -18,26 +18,7 @@ class UsersController extends Controller {
         }
     }
 
-    public function authenticate() {
-        $email = $this->io->post('email');
-        $password = $this->io->post('password');
-    
-        // Fetch user from database
-        $user = $this->db->get_where('users', ['email' => $email])->row();
-    
-        if($user && password_verify($password, $user->password)) {
-            // Save user info in session
-            $this->session->set('user_id', $user->id);
-            $this->session->set('username', $user->username);
-    
-            // Redirect to index with pagination
-            redirect('users/index');
-        } else {
-            // Login failed, redirect back with error
-            $this->session->set('error', 'Invalid credentials');
-            redirect('login');
-        }
-    }
+
 
     public function index()
     {
@@ -50,7 +31,8 @@ class UsersController extends Controller {
 
         $q = '';
         if(isset($_GET['q']) && ! empty($_GET['q'])) {
-            $q = trim($this->io->get('q'));
+            $q = trim(
+                $this->io->get('q'));
         }
 
         $records_per_page = 5;
