@@ -36,7 +36,7 @@
     </h1>
     <p class="text-center text-gray-200 mb-6">Sign in to continue</p>
 
-    <form action="<?= site_url('users/authenticate'); ?>" method="POST" class="space-y-6">
+    <form action="<?= site_url('login/authenticate'); ?>" method="POST">
 
       <!-- Email -->
       <div>
