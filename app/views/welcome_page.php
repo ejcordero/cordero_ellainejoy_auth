@@ -142,7 +142,7 @@ defined('PREVENT_DIRECT_ACCESS') OR exit('No direct script access allowed');
                 </div>
                 <div class="card">
                     <h3>🔗 REST API Support</h3>
-                    <p>Build RESTful APIs easily using built-in tools and conventions.</p>
+                    <p>Build robust RESTful APIs easily using built-in tools and conventions.</p>
                 </div>
                 <div class="card">
                     <h3>📘 ORM-like Models</h3>
@@ -185,7 +185,7 @@ class Welcome extends Controller {
             <h2>📚 Learn More</h2>
             <ul>
                 <li><a href="https://github.com/ronmarasigan/LavaLust">GitHub Repository</a></li>
-                <li><a href="https://lavalust.netlify.app/">Official Documentation</a></li>
+                <li><a href="https://lavalust4.netlify.app/">Official Documentation</a></li>
             </ul>
         </div>
 

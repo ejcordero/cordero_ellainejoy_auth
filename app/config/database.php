@@ -63,23 +63,44 @@ defined('PREVENT_DIRECT_ACCESS') OR exit('No direct script access allowed');
     'port'		=> '3306',
     'username'	=> 'root',
     'password'	=> '',
-    'database'	=> 'crudnew',
-    'charset'	=> 'utf8mb4',
-    'dbprefix'	=> '',
-    // Optional for SQLite
-    'path'      => ''*/
-
-    $database['main'] = array(
-    'driver'	=> 'mysql',
-    'hostname'	=> 'sql12.freesqldatabase.com',
-    'port'		=> '3306',
-    'username'	=> 'sql12801883',
-    'password'	=> 'sjQ2dRXVyp',
-    'database'	=> 'sql12801883',
+    'database'	=> 'mockdata',
     'charset'	=> 'utf8mb4',
     'dbprefix'	=> '',
     // Optional for SQLite
     'path'      => ''
+);*/
+$database['main'] = array(
+    'driver'      => 'mysql',
+    // Use getenv() to read variables set in the Render dashboard
+    'hostname'    => getenv("DB_HOST"),
+    'port'        => getenv("DB_PORT"),
+    'username'    => getenv("DB_USER"),
+    'password'    => getenv("DB_PASS"),
+    'database'    => getenv("DB_NAME"),
+    'charset'     => 'utf8mb4',
+    'dbprefix'    => '',
+    // Optional for SQLite
+    'path'        => '',
+    
+    // 🔑 CRITICAL FIX: Include SSL options for Aiven connection
+    'options'     => [
+        \PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT => false
+    ],
 );
 
+
+/*$database['main'] = array(
+    'driver'    => 'mysql',
+    // Use getenv() to read variables set in the Render dashboard
+    'hostname'  => getenv("DB_HOST"),
+    'port'      => getenv("DB_PORT"),
+    'username'  => getenv("DB_USER"), // Note: The variable name here is DB_USER, not DB_USERNAME
+    'password'  => getenv("DB_PASS"),
+    'database'  => getenv("DB_NAME"),
+    'charset'   => 'utf8mb4',
+    'dbprefix'  => '',
+    // Optional for SQLite
+    'path'      => ''
+);
+*/
 ?>
