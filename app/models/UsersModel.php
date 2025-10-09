@@ -42,4 +42,39 @@ class UsersModel extends Model {
             }
         }
 
+        public function get_user_by_username($username)
+        {
+            return $this->db->table($this->table)
+                            ->where('username', $username)
+                            ->get()
+                            ->row_array();
+        }
+    
+        public function get_user_by_id($id)
+        {
+            return $this->db->table($this->table)
+                            ->where('id', $id)
+                            ->get()
+                            ->row_array();
+        }
+    
+        public function insert($data)
+        {
+            return $this->db->table($this->table)->insert($data);
+        }
+    
+        public function update($id, $data)
+        {
+            return $this->db->table($this->table)
+                            ->where('id', $id)
+                            ->update($data);
+        }
+    
+        public function delete($id)
+        {
+            return $this->db->table($this->table)
+                            ->where('id', $id)
+                            ->delete();
+        }
+
 }
