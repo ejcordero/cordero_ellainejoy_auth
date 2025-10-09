@@ -150,17 +150,17 @@
     <form action="<?= site_url('signup'); ?>" method="POST" class="space-y-6">
       <div>
         <label for="first-name" class="block text-sm mb-2">First Name</label>
-        <input type="text" id="first-name" name="first-name" placeholder="John" class="form-input" />
+        <input type="text" id="first-name" name="first-name"  class="form-input" />
       </div>
 
       <div>
         <label for="last-name" class="block text-sm mb-2">Last Name</label>
-        <input type="text" id="last-name" name="last-name" placeholder="Doe" class="form-input" />
+        <input type="text" id="last-name" name="last-name"  class="form-input" />
       </div>
 
       <div>
         <label for="email" class="block text-sm mb-2">Email Address</label>
-        <input type="email" id="email" name="email" placeholder="you@example.com" class="form-input" />
+        <input type="email" id="email" name="email"  class="form-input" />
       </div>
 
       <div>
@@ -173,7 +173,7 @@
 
       <div>
         <label for="password" class="block text-sm mb-2">Password</label>
-        <input type="password" id="password" name="password" placeholder="••••••••" class="form-input" />
+        <input type="password" id="password" name="password" class="form-input" />
       </div>
 
       <div class="flex gap-4 mt-6">

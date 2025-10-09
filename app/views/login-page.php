@@ -127,14 +127,14 @@
       <!-- Email -->
       <div>
         <label for="email" class="block text-sm font-semibold text-gray-200 mb-2">Email Address</label>
-        <input type="email" id="email" name="email" placeholder="you@example.com"
+        <input type="email" id="email" name="email" 
                class="w-full rounded-xl px-4 py-3 input-glow" required>
       </div>
 
       <!-- Password -->
       <div>
         <label for="password" class="block text-sm font-semibold text-gray-200 mb-2">Password</label>
-        <input type="password" id="password" name="password" placeholder="••••••••"
+        <input type="password" id="password" name="password" 
                class="w-full rounded-xl px-4 py-3 input-glow" required>
       </div>
 
