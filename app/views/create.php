@@ -139,7 +139,7 @@
 </head>
 <body>
   <div class="glass-card">
-    <h2 class="text-4xl font-bold text-center mb-8 text-glow">CRUDero Create Account</h2>
+    <h2 class="text-4xl font-bold text-center mb-8 text-glow">CRUDero Add Users</h2>
 
     <form action="<?=site_url('create');?>" method="POST" class="space-y-6">
       <!-- Last Name -->
@@ -158,18 +158,6 @@
       <div>
         <label for="email" class="block mb-2">EMAIL</label>
         <input type="email" name="email" id="email" required class="glow-input" />
-      </div>
-
-      <!-- Password -->
-      <div>
-        <label for="password" class="block mb-2">PASSWORD</label>
-        <input type="password" name="password" id="password" required class="glow-input" />
-      </div>
-
-      <!-- Confirm Password -->
-      <div>
-        <label for="confirm_password" class="block mb-2">CONFIRM PASSWORD</label>
-        <input type="password" name="confirm_password" id="confirm_password" required class="glow-input" />
       </div>
 
       <!-- Role -->
