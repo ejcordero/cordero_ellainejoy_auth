@@ -10,15 +10,7 @@ class UsersController extends Controller {
     public function __construct()
     {
         parent::__construct();
-
-        $this->call->library('lauth');
-        if (!$this->lauth->is_logged_in()) {
-            redirect('login'); 
-            exit;
-        }
     }
-
-
 
     public function index()
     {
@@ -31,8 +23,7 @@ class UsersController extends Controller {
 
         $q = '';
         if(isset($_GET['q']) && ! empty($_GET['q'])) {
-            $q = trim(
-                $this->io->get('q'));
+            $q = trim($this->io->get('q'));
         }
 
         $records_per_page = 5;
