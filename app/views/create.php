@@ -160,6 +160,18 @@
         <input type="email" name="email" id="email" required class="glow-input" />
       </div>
 
+      <!-- Password -->
+      <div>
+        <label for="password" class="block mb-2">PASSWORD</label>
+        <input type="password" name="password" id="password" required class="glow-input" />
+      </div>
+
+      <!-- Confirm Password -->
+      <div>
+        <label for="confirm_password" class="block mb-2">CONFIRM PASSWORD</label>
+        <input type="password" name="confirm_password" id="confirm_password" required class="glow-input" />
+      </div>
+
       <!-- Role -->
       <div>
         <label for="role" class="block mb-2">ROLE</label>
