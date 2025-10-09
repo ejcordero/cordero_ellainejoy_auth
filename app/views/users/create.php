@@ -1,255 +1,129 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Create User</title>
-
-  <!-- Bootstrap CSS -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
-  <!-- Google Fonts Poppins -->
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet" />
+  <title></title>
+CRUDero Create User
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet" />
 
   <style>
     body {
-      min-height: 100vh;
-      margin: 0;
-      font-family: "Poppins", sans-serif;
-      background: url('<?= base_url() . "public/image/BG2.jpg"; ?>') no-repeat center center/cover;
-      padding: 30px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      font-family: 'Poppins', sans-serif;
+      background: radial-gradient(circle at top left, #1a2a6c, #b21f1f, #fdbb2d);
+      background-size: 400% 400%;
+      animation: gradientShift 12s ease infinite;
     }
 
-    .card {
-      border-radius: 16px;
-      box-shadow: 0 8px 20px rgba(30, 86, 49, 0.3);
-      background: rgba(255, 255, 255, 0.1);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      max-width: 480px;
-      width: 100%;
-      border: 1px solid rgba(212, 175, 55, 0.4);
+    @keyframes gradientShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
     }
 
-    h2 {
-      color: #1e5631;
-      font-weight: 700;
-      margin-bottom: 1.5rem;
-      text-align: center;
-      letter-spacing: 0.05em;
-    }
-
-    label {
-      font-weight: 600;
-      color: #1e5631;
-    }
-
-    input,
-    select {
-      border-radius: 12px;
-      border: 1.5px solid #a38b00;
-      padding: 0.65rem 1rem;
-      font-size: 1rem;
-      color: #1e5631;
-      background: rgba(255, 255, 255, 0.75);
-      transition: border-color 0.3s ease;
-    }
-
-    input::placeholder {
-      color: #7a7a7a;
-    }
-
-    input:focus,
-    select:focus {
-      outline: none;
-      border-color: #1e5631;
-      box-shadow: 0 0 8px 0 rgba(30, 86, 49, 0.3);
-      background: #fff;
-    }
-
-    .form-control:focus-visible {
-      outline-offset: 0;
-    }
-
-    /* Flex wrapper for input + eye */
-    .input-with-icon {
-      display: flex;
-      align-items: center;
-      position: relative;
-    }
-
-    .input-with-icon input {
-      flex: 1;
-      padding-right: 2.5rem;
-    }
-
-    .input-with-icon i {
-      margin-left: -2rem;
-      cursor: pointer;
-      color: #a38b00;
-      font-size: 1.2rem;
-      flex-shrink: 0;
-    }
-
-    .input-with-icon i:hover {
-      color: #1e5631;
-    }
-
-    .btn-create {
-      background: linear-gradient(135deg, #1e5631, #a38b00);
-      border: none;
-      color: white;
-      font-weight: 600;
-      padding: 0.75rem;
-      border-radius: 12px;
-      width: 100%;
-      font-size: 1.1rem;
-      box-shadow: 0 6px 12px rgba(30, 86, 49, 0.3);
-      transition: background-color 0.3s ease;
-    }
-
-    .btn-create:hover {
-      background: #144423;
-      color: white;
-    }
-
-    .error-message {
-      background: rgba(255, 0, 0, 0.1);
-      border: 1px solid rgba(255, 0, 0, 0.3);
-      color: #a70000;
-      border-radius: 12px;
-      padding: 0.75rem 1rem;
-      text-align: center;
-      margin-bottom: 1rem;
-      font-weight: 600;
-      font-size: 0.9rem;
-    }
-
-    .btn-back-container {
-      margin-top: 1.5rem;
-      text-align: center;
-    }
-
-    .btn-back {
-      color: #1e5631;
-      font-weight: 600;
-      text-decoration: none;
-      border: 1.5px solid #a38b00;
-      padding: 0.5rem 1.75rem;
-      border-radius: 12px;
-      display: inline-block;
-      transition: all 0.3s ease;
-      background: rgba(255, 255, 255, 0.75);
-      box-shadow: 0 4px 8px rgba(163, 139, 0, 0.3);
-    }
-
-    .btn-back:hover {
-      color: white;
-      background: #1e5631;
-      border-color: #144423;
-      box-shadow: 0 6px 14px rgba(20, 68, 35, 0.6);
-      text-decoration: none;
+    .glow {
+      box-shadow: 0 0 15px rgba(99, 102, 241, 0.6), 0 0 30px rgba(56, 189, 248, 0.4);
     }
   </style>
 </head>
 
-<body>
-  <div class="card p-5">
-    <h2>Create User</h2>
+<body class="flex items-center justify-center min-h-screen p-4">
+
+  <div class="relative z-10 w-full max-w-md backdrop-blur-xl bg-white/20 p-8 rounded-3xl border border-white/30 glow">
+
+    <h1 class="text-4xl font-extrabold text-center mb-8 text-white tracking-wide drop-shadow-lg">
+    CRUDero Create User
+    </h1>
 
     <!-- Error Message -->
     <?php if (!empty($error)) : ?>
-      <div class="error-message"><?= $error ?></div>
+      <div class="bg-red-500/20 border border-red-400 text-red-200 rounded-xl py-2 px-4 text-center mb-6 font-semibold">
+        <?= $error ?>
+      </div>
     <?php endif; ?>
 
-    <form method="post" action="<?= site_url('users/create'); ?>" class="mb-3">
+    <form method="post" action="<?= site_url('users/create'); ?>" class="space-y-6">
+      
       <!-- Username -->
-      <div class="mb-4">
-        <label for="username" class="form-label">Username</label>
-        <input type="text" id="username" name="username" placeholder="Username" required
-          value="<?= isset($username) ? html_escape($username) : '' ?>" class="form-control" />
+      <div>
+        <label for="username" class="block text-white font-semibold mb-2">Username</label>
+        <input type="text" id="username" name="username" placeholder="Enter username" required
+          value="<?= isset($username) ? html_escape($username) : '' ?>"
+          class="w-full px-4 py-3 rounded-xl bg-white/20 text-white placeholder-gray-300 border border-white/30 focus:outline-none focus:ring-2 focus:ring-indigo-400" />
       </div>
 
       <!-- Email -->
-      <div class="mb-4">
-        <label for="email" class="form-label">Email</label>
-        <input type="email" id="email" name="email" placeholder="Email" required
-          value="<?= isset($email) ? html_escape($email) : '' ?>" class="form-control" />
+      <div>
+        <label for="email" class="block text-white font-semibold mb-2">Email</label>
+        <input type="email" id="email" name="email" placeholder="Enter email" required
+          value="<?= isset($email) ? html_escape($email) : '' ?>"
+          class="w-full px-4 py-3 rounded-xl bg-white/20 text-white placeholder-gray-300 border border-white/30 focus:outline-none focus:ring-2 focus:ring-indigo-400" />
       </div>
 
       <!-- Password -->
-      <div class="mb-4">
-        <label for="password" class="form-label">Password</label>
-        <div class="input-with-icon">
-          <input type="password" name="password" id="password" placeholder="Password" required class="form-control" />
-          <i class="fa-solid fa-eye" id="togglePassword"></i>
+      <div>
+        <label for="password" class="block text-white font-semibold mb-2">Password</label>
+        <div class="relative">
+          <input type="password" name="password" id="password" placeholder="Enter password" required
+            class="w-full px-4 py-3 pr-10 rounded-xl bg-white/20 text-white placeholder-gray-300 border border-white/30 focus:outline-none focus:ring-2 focus:ring-indigo-400" />
+          <i id="togglePassword" class="fa-solid fa-eye absolute right-3 top-3.5 text-gray-300 cursor-pointer hover:text-white"></i>
         </div>
       </div>
 
       <!-- Confirm Password -->
-      <div class="mb-4">
-        <label for="confirmPassword" class="form-label">Confirm Password</label>
-        <div class="input-with-icon">
-          <input type="password" name="confirm_password" id="confirmPassword" placeholder="Confirm Password" required
-            class="form-control" />
-          <i class="fa-solid fa-eye" id="toggleConfirmPassword"></i>
+      <div>
+        <label for="confirmPassword" class="block text-white font-semibold mb-2">Confirm Password</label>
+        <div class="relative">
+          <input type="password" name="confirm_password" id="confirmPassword" placeholder="Confirm password" required
+            class="w-full px-4 py-3 pr-10 rounded-xl bg-white/20 text-white placeholder-gray-300 border border-white/30 focus:outline-none focus:ring-2 focus:ring-indigo-400" />
+          <i id="toggleConfirmPassword" class="fa-solid fa-eye absolute right-3 top-3.5 text-gray-300 cursor-pointer hover:text-white"></i>
         </div>
       </div>
 
       <!-- Role -->
-      <div class="mb-4">
-        <label for="role" class="form-label">Role</label>
-        <select name="role" id="role" required class="form-control">
+      <div>
+        <label for="role" class="block text-white font-semibold mb-2">Role</label>
+        <select name="role" id="role" required
+          class="w-full px-4 py-3 rounded-xl bg-white/20 text-white border border-white/30 focus:outline-none focus:ring-2 focus:ring-indigo-400">
           <option value="" disabled <?= !isset($role) ? 'selected' : '' ?>>-- Select Role --</option>
           <option value="admin" <?= isset($role) && $role == "admin" ? 'selected' : '' ?>>Admin</option>
           <option value="user" <?= isset($role) && $role == "user" ? 'selected' : '' ?>>User</option>
         </select>
       </div>
 
-      <!-- Submit -->
-      <button type="submit" class="btn-create">Create User</button>
+      <!-- Submit Button -->
+      <button type="submit"
+        class="w-full bg-indigo-500 hover:bg-indigo-600 text-white font-bold py-3 rounded-xl shadow-md transition transform hover:scale-105">
+        Create User
+      </button>
     </form>
 
-    <!-- Back button container -->
-    <div class="btn-back-container">
-      <a href="<?= site_url('users'); ?>" class="btn-back">Back</a>
+    <!-- Back Button -->
+    <div class="pt-4 text-center">
+      <a href="<?= site_url('users'); ?>"
+        class="inline-block px-6 py-2 border border-white/40 rounded-xl text-white font-semibold hover:bg-white/20 transition hover:scale-105">
+        Back
+      </a>
     </div>
   </div>
 
-  <!-- Font Awesome -->
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet" />
-
-  <!-- Bootstrap Bundle with Popper -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-
-  <!-- Toggle Password Script -->
   <script>
     function toggleVisibility(toggleId, inputId) {
       const toggle = document.getElementById(toggleId);
       const input = document.getElementById(inputId);
 
-      toggle.addEventListener('click', function () {
+      toggle.addEventListener('click', () => {
         const type = input.type === 'password' ? 'text' : 'password';
         input.type = type;
-
-        this.classList.toggle('fa-eye');
-        this.classList.toggle('fa-eye-slash');
-      });
-
-      toggle.addEventListener('keydown', function (e) {
-        if (e.key === 'Enter' || e.key === ' ') {
-          e.preventDefault();
-          this.click();
-        }
+        toggle.classList.toggle('fa-eye');
+        toggle.classList.toggle('fa-eye-slash');
       });
     }
 
     toggleVisibility('togglePassword', 'password');
     toggleVisibility('toggleConfirmPassword', 'confirmPassword');
   </script>
-</body>
 
+</body>
 </html>

@@ -3,132 +3,22 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Login</title>
+  <title>CRUDero Login</title>
+  <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
 
   <style>
+    /* Animated gradient background */
     body {
-      margin: 0;
-      font-family: "Poppins", sans-serif;
-      min-height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      background: url('<?= base_url() . "public/image/BG2.jpg"; ?>') no-repeat center center/cover;
-      padding: 20px;
-      overflow: hidden;
+      background: radial-gradient(circle at top left, #1a2a6c, #b21f1f, #fdbb2d);
+      background-size: 400% 400%;
+      animation: gradientShift 12s ease infinite;
     }
 
-    /* Glass Container */
-    .glass-container {
-      width: 100%;
-      max-width: 420px;
-      padding: 40px;
-      background: rgba(255, 255, 255, 0.12);
-      backdrop-filter: blur(14px);
-      border-radius: 20px;
-      border: 1px solid rgba(212, 175, 55, 0.4);
-      box-shadow: 0 12px 28px rgba(30, 86, 49, 0.25);
-      text-align: center;
-      transition: all 0.3s ease;
-    }
-
-    h2 {
-      font-size: 1.9em;
-      font-weight: 700;
-      color: #1e5631;
-      margin-bottom: 25px;
-      letter-spacing: 0.5px;
-    }
-
-    .form-group {
-      margin-bottom: 18px;
-      position: relative;
-      text-align: left;
-    }
-
-    .form-group input {
-      width: 100%;
-      padding: 12px 14px;
-      border: 1.5px solid #a38b00;
-      border-radius: 12px;
-      background: rgba(255, 255, 255, 0.8);
-      color: #1e5631;
-      font-size: 15px;
-      transition: all 0.3s ease;
-      box-sizing: border-box;
-    }
-
-    .form-group input:focus {
-      border-color: #1e5631;
-      box-shadow: 0 0 10px rgba(30, 86, 49, 0.35);
-      background: #fff;
-      transform: scale(1.02);
-      outline: none;
-    }
-
-    /* Red highlight for wrong input */
-    .invalid-input {
-      border-color: #c62828 !important;
-      background: rgba(255, 0, 0, 0.08);
-    }
-
-    .toggle-password {
-      position: absolute;
-      right: 14px;
-      top: 50%;
-      transform: translateY(-50%);
-      cursor: pointer;
-      font-size: 1.2em;
-      color: #a38b00;
-      transition: transform 0.4s ease, color 0.3s ease;
-    }
-
-    .toggle-password:hover {
-      color: #1e5631;
-      transform: translateY(-50%) rotate(15deg);
-    }
-
-    .btn-submit {
-      width: 100%;
-      padding: 14px;
-      border: none;
-      border-radius: 12px;
-      background: linear-gradient(135deg, #1e5631, #a38b00);
-      color: #fff;
-      font-size: 1.1em;
-      font-weight: 600;
-      cursor: pointer;
-      box-shadow: 0 6px 12px rgba(30, 86, 49, 0.35);
-      transition: all 0.3s ease;
-    }
-
-    .btn-submit:hover {
-      background: linear-gradient(135deg, #144423, #c7a600);
-      transform: translateY(-2px) scale(1.03);
-      box-shadow: 0 10px 20px rgba(30, 86, 49, 0.4);
-    }
-
-    .btn-submit:active {
-      transform: scale(0.97);
-    }
-
-    .text-center {
-      margin-top: 20px;
-    }
-
-    .text-center a {
-      color: #ffffff;
-      font-weight: 600;
-      text-decoration: none;
-      transition: color 0.3s ease, text-shadow 0.3s ease;
-    }
-
-    .text-center a:hover {
-      text-decoration: underline;
-      color: #a38b00;
-      text-shadow: 0 0 6px rgba(163,139,0,0.5);
+    @keyframes gradientShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
     }
 
     /* Shake animation */
@@ -143,37 +33,73 @@
     .shake {
       animation: shake 0.5s;
     }
-
   </style>
 </head>
-<body>
-  <div class="glass-container" id="loginContainer">
-    <h2>Login</h2>
 
-    <form method="post" action="<?= site_url('auth/login') ?>" id="loginForm">
-      <div class="form-group">
-        <input type="text" name="username" placeholder="Username" required value="<?= isset($_POST['username']) ? html_escape($_POST['username']) : ''; ?>" 
-               class="<?= !empty($error) ? 'invalid-input' : ''; ?>">
+<body class="flex items-center justify-center min-h-screen">
+
+  <!-- Glassy Login Card -->
+  <div id="loginContainer"
+       class="relative z-10 w-full max-w-md backdrop-blur-xl bg-white/20 p-8 rounded-3xl border border-white/30 shadow-lg">
+    
+    <!-- Title -->
+    <h2 class="text-4xl font-extrabold text-center mb-8 text-white tracking-wide drop-shadow-lg">
+      CRUDero Login
+    </h2>
+
+    <!-- Form -->
+    <form method="post" action="<?= site_url('auth/login') ?>" id="loginForm" class="space-y-6">
+
+      <!-- Username -->
+      <div>
+        <label for="username" class="block text-white font-semibold mb-2">Username</label>
+        <input 
+          type="text" 
+          id="username"
+          name="username"
+          placeholder="Enter your username"
+          required
+          value="<?= isset($_POST['username']) ? html_escape($_POST['username']) : ''; ?>"
+          class="w-full px-4 py-3 rounded-xl bg-white/20 text-white placeholder-gray-300 border border-white/30 focus:outline-none focus:ring-2 focus:ring-indigo-400 <?= !empty($error) ? 'border-red-500 bg-red-500/10' : ''; ?>"
+        >
       </div>
 
-      <div class="form-group">
-        <input type="password" name="password" id="password" placeholder="Password" required 
-               class="<?= !empty($error) ? 'invalid-input' : ''; ?>">
-        <i class="fa-solid fa-eye toggle-password" id="togglePassword"></i>
+      <!-- Password -->
+      <div class="relative">
+        <label for="password" class="block text-white font-semibold mb-2">Password</label>
+        <input 
+          type="password" 
+          id="password" 
+          name="password"
+          placeholder="Enter your password"
+          required
+          class="w-full px-4 py-3 rounded-xl bg-white/20 text-white placeholder-gray-300 border border-white/30 focus:outline-none focus:ring-2 focus:ring-indigo-400 <?= !empty($error) ? 'border-red-500 bg-red-500/10' : ''; ?>"
+        >
+        <i id="togglePassword"
+           class="fa-solid fa-eye absolute right-4 top-11 text-gray-300 cursor-pointer hover:text-white transition"></i>
       </div>
 
-      <button type="submit" class="btn-submit">Login</button>
+      <!-- Button -->
+      <button type="submit"
+        class="w-full bg-indigo-500 hover:bg-indigo-600 text-white font-bold py-3 rounded-xl shadow-md transition transform hover:scale-105">
+        Login
+      </button>
+
     </form>
 
-    <div class="text-center">
-      <p>
+    <!-- Register Link -->
+    <div class="text-center mt-6">
+      <p class="text-white">
         Don’t have an account?
-        <a href="<?= site_url('auth/register'); ?>">Register here</a>
+        <a href="<?= site_url('auth/register'); ?>" class="text-yellow-300 font-semibold hover:underline hover:text-yellow-400">
+          Register here
+        </a>
       </p>
     </div>
   </div>
 
   <script>
+    // Toggle password visibility
     const togglePassword = document.getElementById('togglePassword');
     const password = document.getElementById('password');
     const container = document.getElementById('loginContainer');
@@ -185,7 +111,7 @@
       this.classList.toggle('fa-eye-slash');
     });
 
-    // Shake the container if there's an error
+    // Shake animation when there's an error
     <?php if(!empty($error)): ?>
       container.classList.add('shake');
       container.addEventListener('animationend', function() {

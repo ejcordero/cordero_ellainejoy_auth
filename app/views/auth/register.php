@@ -3,109 +3,23 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Register</title>
+  <title>CRUDero Register</title>
+  <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
 
   <style>
-    * { box-sizing: border-box; }
-
+    /* Background animation */
     body {
-      margin: 0;
-      font-family: "Poppins", sans-serif;
-      min-height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      background: url('<?= base_url() . "public/image/BG2.jpg"; ?>') no-repeat center center/cover;
-      padding: 20px;
-      overflow: hidden;
+      background: radial-gradient(circle at top left, #1a2a6c, #b21f1f, #fdbb2d);
+      background-size: 400% 400%;
+      animation: gradientShift 12s ease infinite;
     }
 
-    /* Glass Card */
-    .glass-container {
-      width: 100%;
-      max-width: 460px;
-      padding: 40px;
-      background: rgba(255, 255, 255, 0.12);
-      backdrop-filter: blur(14px);
-      border-radius: 20px;
-      border: 1px solid rgba(212, 175, 55, 0.4);
-      box-shadow: 0 12px 28px rgba(30, 86, 49, 0.25);
-      text-align: center;
-      transition: all 0.3s ease;
+    @keyframes gradientShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
     }
-
-    h2 {
-      font-size: 1.8em;
-      font-weight: 700;
-      color: #1e5631;
-      margin-bottom: 25px;
-      letter-spacing: 0.5px;
-    }
-
-    .form-group {
-      margin-bottom: 18px;
-      position: relative;
-      text-align: left;
-    }
-
-    input, select {
-      width: 100%;
-      padding: 12px 14px;
-      border: 1.5px solid #a38b00;
-      border-radius: 12px;
-      background: rgba(255, 255, 255, 0.75);
-      color: #1e5631;
-      font-size: 15px;
-      transition: all 0.3s ease;
-    }
-
-    input:focus, select:focus {
-      border-color: #1e5631;
-      box-shadow: 0 0 10px rgba(30, 86, 49, 0.45);
-      background: #fff;
-      transform: scale(1.02);
-      outline: none;
-    }
-
-    .invalid-input {
-      border-color: #c62828 !important;
-      background: rgba(255, 0, 0, 0.08);
-    }
-
-    .toggle-password {
-      position: absolute;
-      right: 14px;
-      top: 50%;
-      transform: translateY(-50%);
-      cursor: pointer;
-      font-size: 1.2em;
-      color: #a38b00;
-    }
-
-    .toggle-password:hover { color: #1e5631; }
-
-    .btn-submit {
-      width: 100%;
-      padding: 14px;
-      border: none;
-      border-radius: 12px;
-      background: linear-gradient(135deg, #1e5631, #a38b00);
-      color: #fff;
-      font-size: 1.1em;
-      font-weight: 600;
-      cursor: pointer;
-      box-shadow: 0 6px 14px rgba(30, 86, 49, 0.35);
-      transition: all 0.25s ease;
-    }
-
-    .btn-submit:hover { background: #144423; transform: translateY(-2px); }
-    .btn-submit:active { transform: scale(0.98); box-shadow: 0 3px 8px rgba(30, 86, 49, 0.4); }
-
-    .text-center { margin-top: 20px; }
-    .text-center a { color: #fff; font-weight: 600; text-decoration: none; }
-    .text-center a:hover { color: #a38b00; text-decoration: underline; }
 
     /* Shake animation */
     @keyframes shake {
@@ -114,80 +28,128 @@
       50% { transform: translateX(6px); }
       75% { transform: translateX(-4px); }
     }
-
     .shake { animation: shake 0.5s; }
-
-    .error-message {
-      background: rgba(255, 0, 0, 0.1);
-      border: 1px solid rgba(255, 0, 0, 0.3);
-      color: #a70000;
-      border-radius: 12px;
-      padding: 12px;
-      margin-bottom: 18px;
-      font-size: 0.9em;
-      font-weight: 600;
-      text-align: center;
-    }
   </style>
 </head>
 
-<body>
-  <div class="glass-container" id="registerContainer">
-    <h2>Register</h2>
+<body class="flex items-center justify-center min-h-screen font-sans text-white">
 
+  <!-- Glassy Register Card -->
+  <div id="registerContainer" class="relative z-10 w-full max-w-md backdrop-blur-xl bg-white/20 p-8 rounded-3xl border border-white/30 shadow-lg">
+
+    <!-- Title -->
+    <h2 class="text-4xl font-extrabold text-center mb-8 tracking-wide drop-shadow-lg">
+      CRUDero Register
+    </h2>
+
+    <!-- Error message -->
     <?php if (!empty($error)): ?>
-      <div class="error-message"><?= $error ?></div>
+      <div class="bg-red-500/20 border border-red-400/50 text-red-200 rounded-xl py-3 px-4 mb-6 text-center font-semibold">
+        <?= $error ?>
+      </div>
     <?php endif; ?>
 
-    <form method="POST" action="<?= site_url('auth/register'); ?>">
-      <div class="form-group">
-        <input type="text" name="username" placeholder="Username" required 
-               value="<?= isset($_POST['username']) ? html_escape($_POST['username']) : ''; ?>"
-               class="<?= !empty($error) ? 'invalid-input' : ''; ?>">
+    <!-- Form -->
+    <form method="POST" action="<?= site_url('auth/register'); ?>" class="space-y-5">
+
+      <!-- Username -->
+      <div>
+        <label for="username" class="block text-sm font-semibold mb-2">Username</label>
+        <input 
+          type="text" 
+          name="username" 
+          id="username"
+          placeholder="Enter your username"
+          required
+          value="<?= isset($_POST['username']) ? html_escape($_POST['username']) : ''; ?>"
+          class="w-full px-4 py-3 rounded-xl bg-white/20 text-white placeholder-gray-300 border border-white/30 focus:outline-none focus:ring-2 focus:ring-indigo-400 <?= !empty($error) ? 'border-red-500 bg-red-500/10' : ''; ?>"
+        >
       </div>
 
-      <div class="form-group">
-        <input type="email" name="email" placeholder="Email" required
-               value="<?= isset($_POST['email']) ? html_escape($_POST['email']) : ''; ?>"
-               class="<?= !empty($error) ? 'invalid-input' : ''; ?>">
+      <!-- Email -->
+      <div>
+        <label for="email" class="block text-sm font-semibold mb-2">Email</label>
+        <input 
+          type="email" 
+          name="email" 
+          id="email"
+          placeholder="Enter your email"
+          required
+          value="<?= isset($_POST['email']) ? html_escape($_POST['email']) : ''; ?>"
+          class="w-full px-4 py-3 rounded-xl bg-white/20 text-white placeholder-gray-300 border border-white/30 focus:outline-none focus:ring-2 focus:ring-indigo-400 <?= !empty($error) ? 'border-red-500 bg-red-500/10' : ''; ?>"
+        >
       </div>
 
-      <div class="form-group">
-        <input type="password" name="password" id="password" placeholder="Password" required
-               class="<?= !empty($error) ? 'invalid-input' : ''; ?>">
-        <i class="fa-solid fa-eye toggle-password" id="togglePassword"></i>
+      <!-- Password -->
+      <div class="relative">
+        <label for="password" class="block text-sm font-semibold mb-2">Password</label>
+        <input 
+          type="password" 
+          name="password" 
+          id="password"
+          placeholder="Enter your password"
+          required
+          class="w-full px-4 py-3 rounded-xl bg-white/20 text-white placeholder-gray-300 border border-white/30 focus:outline-none focus:ring-2 focus:ring-indigo-400 <?= !empty($error) ? 'border-red-500 bg-red-500/10' : ''; ?>"
+        >
+        <i id="togglePassword" class="fa-solid fa-eye absolute right-4 top-11 text-gray-300 cursor-pointer hover:text-white transition"></i>
       </div>
 
-      <div class="form-group">
-        <input type="password" name="confirm_password" id="confirmPassword" placeholder="Confirm Password" required
-               class="<?= !empty($error) ? 'invalid-input' : ''; ?>">
-        <i class="fa-solid fa-eye toggle-password" id="toggleConfirmPassword"></i>
+      <!-- Confirm Password -->
+      <div class="relative">
+        <label for="confirmPassword" class="block text-sm font-semibold mb-2">Confirm Password</label>
+        <input 
+          type="password" 
+          name="confirm_password" 
+          id="confirmPassword"
+          placeholder="Re-enter your password"
+          required
+          class="w-full px-4 py-3 rounded-xl bg-white/20 text-white placeholder-gray-300 border border-white/30 focus:outline-none focus:ring-2 focus:ring-indigo-400 <?= !empty($error) ? 'border-red-500 bg-red-500/10' : ''; ?>"
+        >
+        <i id="toggleConfirmPassword" class="fa-solid fa-eye absolute right-4 top-11 text-gray-300 cursor-pointer hover:text-white transition"></i>
       </div>
 
-      <div class="form-group">
-        <select name="role" required>
+      <!-- Role -->
+      <div>
+        <label for="role" class="block text-sm font-semibold mb-2">Role</label>
+        <select 
+          name="role" 
+          id="role"
+          required
+          class="w-full px-4 py-3 rounded-xl bg-white/20 text-white border border-white/30 focus:outline-none focus:ring-2 focus:ring-indigo-400 appearance-none"
+        >
           <option value="user" <?= isset($_POST['role']) && $_POST['role']=='user' ? 'selected' : 'selected'; ?>>User</option>
           <option value="admin" <?= isset($_POST['role']) && $_POST['role']=='admin' ? 'selected' : ''; ?>>Admin</option>
         </select>
       </div>
 
-      <button type="submit" class="btn-submit">Register</button>
+      <!-- Register Button -->
+      <button type="submit"
+        class="w-full bg-indigo-500 hover:bg-indigo-600 text-white font-bold py-3 rounded-xl shadow-md transition transform hover:scale-105">
+        Register
+      </button>
+
     </form>
 
-    <div class="text-center">
-      <p>Already have an account? 
-        <a href="<?= site_url('auth/login'); ?>">Login here</a>
+    <!-- Login Link -->
+    <div class="text-center mt-6">
+      <p class="text-white">
+        Already have an account?
+        <a href="<?= site_url('auth/login'); ?>" class="text-yellow-300 font-semibold hover:underline hover:text-yellow-400">
+          Login here
+        </a>
       </p>
     </div>
+
   </div>
 
   <script>
-    // Password toggle
+    // Password toggle visibility
     function toggleVisibility(toggleId, inputId) {
       const toggle = document.getElementById(toggleId);
       const input = document.getElementById(inputId);
       toggle.addEventListener('click', function () {
-        input.type = input.type === 'password' ? 'text' : 'password';
+        const type = input.type === 'password' ? 'text' : 'password';
+        input.type = type;
         this.classList.toggle('fa-eye');
         this.classList.toggle('fa-eye-slash');
       });
@@ -195,7 +157,7 @@
     toggleVisibility('togglePassword', 'password');
     toggleVisibility('toggleConfirmPassword', 'confirmPassword');
 
-    // Shake container on error
+    // Shake animation on error
     <?php if(!empty($error)): ?>
       const container = document.getElementById('registerContainer');
       container.classList.add('shake');
