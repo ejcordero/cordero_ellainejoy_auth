@@ -6,146 +6,167 @@
   <title>CRUDero User Dashboard</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
     html, body { font-family: 'Inter', sans-serif; }
 
-    @keyframes subtleGradientMove {
+    /* Animated glowing background */
+    @keyframes gradientFlow {
       0% { background-position: 0% 50%; }
       50% { background-position: 100% 50%; }
       100% { background-position: 0% 50%; }
     }
 
     body {
-      background: linear-gradient(-45deg, #e6e6e6, #f0f0f0, #e6e6e6, #f8f8f8);
+      background: linear-gradient(-45deg, #1a1a2e, #16213e, #0f3460, #533483);
       background-size: 400% 400%;
-      animation: subtleGradientMove 15s ease infinite;
-      color: #616161;
+      animation: gradientFlow 15s ease infinite;
       min-height: 100vh;
       display: flex;
-      align-items: center;
       justify-content: center;
-      padding: 2rem;
+      align-items: flex-start;
+      padding: 3rem 1rem;
+      overflow-x: hidden;
       position: relative;
-      overflow: hidden;
+      color: #e0e0e0;
     }
 
     body::before {
       content: '';
       position: absolute;
-      bottom: 0; left: 0;
-      width: 1000px; height: 1000px;
-      background: radial-gradient(circle at 10% 90%, rgba(255,120,0,0.4), transparent 70%);
-      filter: blur(120px); opacity: 0.8; z-index: 0;
+      top: 15%;
+      left: 10%;
+      width: 400px;
+      height: 400px;
+      background: radial-gradient(circle, rgba(0,255,255,0.4), transparent 70%);
+      filter: blur(120px);
+      z-index: 0;
     }
 
     body::after {
       content: '';
       position: absolute;
-      top: 15%; right: 15%;
-      width: 300px; height: 300px;
-      background: radial-gradient(circle, rgba(255,255,255,0.5), transparent);
-      filter: blur(80px); opacity: 0.8; z-index: 0;
+      bottom: 15%;
+      right: 10%;
+      width: 400px;
+      height: 400px;
+      background: radial-gradient(circle, rgba(255,0,255,0.4), transparent 70%);
+      filter: blur(120px);
+      z-index: 0;
     }
 
-    .soft-ui {
-      border-radius: 1.5rem;
-      background: #e6e6e6;
-      box-shadow: 6px 6px 12px #c9c9c9,
-                  -6px -6px 12px #ffffff;
+    /* Glass container */
+    .glass-card {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(25px);
+      box-shadow: 0 0 25px rgba(0, 255, 255, 0.2);
       transition: all 0.3s ease-in-out;
       position: relative;
       z-index: 1;
     }
 
-    .soft-ui-inset {
-      box-shadow: inset 5px 5px 10px #c9c9c9,
-                  inset -5px -5px 10px #ffffff;
+    .glass-card:hover {
+      box-shadow: 0 0 35px rgba(0, 255, 255, 0.35);
+      transform: translateY(-3px);
     }
 
-    .soft-ui-hover:hover {
-      box-shadow: 4px 4px 8px #c9c9c9,
-                  -4px -4px 8px #ffffff;
-      transform: translateY(-2px);
+    /* Buttons */
+    .btn-glow {
+      background: linear-gradient(90deg, #00ffff, #0077ff);
+      color: white;
+      box-shadow: 0 0 15px rgba(0, 255, 255, 0.5);
+      transition: all 0.3s ease;
+    }
+    .btn-glow:hover {
+      box-shadow: 0 0 25px rgba(0, 255, 255, 0.9);
+      transform: scale(1.05);
     }
 
-    .soft-ui-active:active {
-      box-shadow: inset 5px 5px 10px #c9c9c9,
-                  inset -5px -5px 10px #ffffff;
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.1);
+      color: #e0e0e0;
+      border: 1px solid rgba(255,255,255,0.2);
+      transition: all 0.3s ease;
+    }
+    .btn-secondary:hover {
+      background: rgba(255, 255, 255, 0.2);
+      box-shadow: 0 0 20px rgba(255,255,255,0.15);
     }
 
-    .table-header {
-      background-color: #e6e6e6;
+    /* Table styling */
+    table {
+      border-collapse: collapse;
+      width: 100%;
     }
 
-    .table-cell {
-      border-bottom: 1px solid #d1d1d1;
+    thead tr {
+      background: rgba(255, 255, 255, 0.1);
     }
 
-    tr.soft-ui-hover:hover {
-      background-color: #f0f0f0;
-      transition: background-color 0.2s ease-in-out;
+    th, td {
+      padding: 1rem 1.5rem;
+      text-align: left;
     }
 
-    .text-shadow {
-      text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+    tbody tr {
+      transition: background 0.3s ease;
+    }
+
+    tbody tr:hover {
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    .text-glow {
+      text-shadow: 0 0 10px rgba(0,255,255,0.5);
     }
   </style>
 </head>
 <body>
-  <div class="container mx-auto max-w-6xl">
+  <div class="container mx-auto max-w-6xl glass-card rounded-3xl p-10">
+
     <!-- Header -->
     <div class="flex flex-col sm:flex-row justify-between items-center mb-10 gap-4">
-      <h1 class="text-4xl font-semibold tracking-wider px-6 py-3 rounded-2xl soft-ui text-gray-700 text-shadow">
-        CRUDero User Dashboard
-      </h1>
-      <a href="<?= site_url('logout'); ?>" 
-         class="font-semibold text-lg px-8 py-4 rounded-xl soft-ui soft-ui-hover soft-ui-active text-gray-700">
-        Logout
-      </a>
+      <h1 class="text-4xl font-bold text-white text-glow">CRUDero User Dashboard</h1>
+      <a href="<?= site_url('logout'); ?>" class="btn-secondary px-8 py-3 rounded-xl font-semibold text-lg">Logout</a>
     </div>
 
     <!-- Search Bar -->
-    <form method="get" action="<?= site_url('user/dashboard'); ?>" class="mb-6">
-      <div class="flex items-center gap-3 soft-ui px-4 py-3 rounded-xl">
+    <form method="get" action="<?= site_url('user/dashboard'); ?>" class="mb-8">
+      <div class="flex items-center gap-3 bg-white/10 rounded-xl p-4">
         <input 
           type="text" 
           name="search" 
           value="<?= htmlspecialchars($search_term ?? ''); ?>"
           placeholder="Search by name or email..."
-          class="flex-grow bg-transparent outline-none text-gray-600 placeholder-gray-400"
+          class="flex-grow bg-transparent text-white placeholder-gray-300 outline-none"
         >
-        <button type="submit" 
-                class="px-6 py-2 rounded-lg soft-ui soft-ui-hover soft-ui-active text-gray-700 font-semibold">
-          Search
-        </button>
+        <button type="submit" class="btn-glow px-6 py-2 rounded-lg font-semibold">Search</button>
       </div>
     </form>
 
     <!-- Table -->
-    <div class="soft-ui p-6 overflow-x-auto">
-      <table class="w-full table-auto border-collapse">
+    <div class="overflow-x-auto">
+      <table>
         <thead>
-          <tr class="soft-ui-inset rounded-xl">
-            <th class="table-header px-6 py-4 text-left font-semibold text-gray-700 uppercase tracking-wider rounded-tl-xl">ID</th>
-            <th class="table-header px-6 py-4 text-left font-semibold text-gray-700 uppercase tracking-wider">Last Name</th>
-            <th class="table-header px-6 py-4 text-left font-semibold text-gray-700 uppercase tracking-wider">First Name</th>
-            <th class="table-header px-6 py-4 text-left font-semibold text-gray-700 uppercase tracking-wider rounded-tr-xl">Email</th>
+          <tr>
+            <th class="text-cyan-300 font-semibold">ID</th>
+            <th class="text-cyan-300 font-semibold">Last Name</th>
+            <th class="text-cyan-300 font-semibold">First Name</th>
+            <th class="text-cyan-300 font-semibold">Email</th>
           </tr>
         </thead>
         <tbody>
           <?php if (empty($users)): ?>
             <tr>
-              <td colspan="4" class="py-10 text-center text-gray-400 font-medium soft-ui rounded-b-xl">
-                No records found.
-              </td>
+              <td colspan="4" class="py-10 text-center text-gray-300 font-medium">No records found.</td>
             </tr>
           <?php else: ?>
             <?php foreach($users as $user): ?>
-              <tr class="soft-ui-hover">
-                <td class="table-cell px-6 py-4 text-sm font-medium text-gray-600"><?=$user['student_id'];?></td>
-                <td class="table-cell px-6 py-4 text-sm font-medium text-gray-600"><?=$user['last_name'];?></td>
-                <td class="table-cell px-6 py-4 text-sm font-medium text-gray-600"><?=$user['first_name'];?></td>
-                <td class="table-cell px-6 py-4 text-sm font-medium text-gray-600"><?=$user['email'];?></td>
+              <tr>
+                <td class="text-gray-200"><?=$user['student_id'];?></td>
+                <td class="text-gray-200"><?=$user['last_name'];?></td>
+                <td class="text-gray-200"><?=$user['first_name'];?></td>
+                <td class="text-gray-200"><?=$user['email'];?></td>
               </tr>
             <?php endforeach; ?>
           <?php endif; ?>
@@ -155,52 +176,30 @@
 
     <!-- Pagination -->
     <?php if (!empty($users) && $total_pages > 1): ?>
-      <div class="mt-8 flex justify-center">
+      <div class="mt-10 flex justify-center">
         <ul class="flex flex-wrap items-center gap-3">
           <?php if ($page > 1): ?>
-            <li>
-              <a href="<?=site_url('user/dashboard?search='.urlencode($search_term).'&page=1');?>"
-                 class="px-4 py-2 rounded-xl soft-ui soft-ui-hover soft-ui-active text-gray-700 font-semibold">
-                ⏮ First
-              </a>
-            </li>
-            <li>
-              <a href="<?=site_url('user/dashboard?search='.urlencode($search_term).'&page='.($page-1));?>"
-                 class="px-4 py-2 rounded-xl soft-ui soft-ui-hover soft-ui-active text-gray-700 font-semibold">
-                ← Prev
-              </a>
-            </li>
+            <li><a href="<?=site_url('user/dashboard?search='.urlencode($search_term).'&page=1');?>" class="btn-secondary px-4 py-2 rounded-lg font-semibold">⏮ First</a></li>
+            <li><a href="<?=site_url('user/dashboard?search='.urlencode($search_term).'&page='.($page-1));?>" class="btn-secondary px-4 py-2 rounded-lg font-semibold">← Prev</a></li>
           <?php endif; ?>
 
           <?php for ($i = 1; $i <= $total_pages; $i++): ?>
             <li>
               <a href="<?=site_url('user/dashboard?search='.urlencode($search_term).'&page='.$i);?>"
-                 class="px-4 py-2 rounded-xl font-semibold 
-                        <?= $i == $page 
-                            ? 'soft-ui-inset text-gray-600' 
-                            : 'soft-ui soft-ui-hover soft-ui-active text-gray-700'; ?>">
+                 class="px-4 py-2 rounded-lg font-semibold <?= $i == $page ? 'btn-glow' : 'btn-secondary'; ?>">
                 <?=$i;?>
               </a>
             </li>
           <?php endfor; ?>
 
           <?php if ($page < $total_pages): ?>
-            <li>
-              <a href="<?=site_url('user/dashboard?search='.urlencode($search_term).'&page='.($page+1));?>"
-                 class="px-4 py-2 rounded-xl soft-ui soft-ui-hover soft-ui-active text-gray-700 font-semibold">
-                Next →
-              </a>
-            </li>
-            <li>
-              <a href="<?=site_url('user/dashboard?search='.urlencode($search_term).'&page='.$total_pages);?>"
-                 class="px-4 py-2 rounded-xl soft-ui soft-ui-hover soft-ui-active text-gray-700 font-semibold">
-                Last ⏭
-              </a>
-            </li>
+            <li><a href="<?=site_url('user/dashboard?search='.urlencode($search_term).'&page='.($page+1));?>" class="btn-secondary px-4 py-2 rounded-lg font-semibold">Next →</a></li>
+            <li><a href="<?=site_url('user/dashboard?search='.urlencode($search_term).'&page='.$total_pages);?>" class="btn-secondary px-4 py-2 rounded-lg font-semibold">Last ⏭</a></li>
           <?php endif; ?>
         </ul>
       </div>
     <?php endif; ?>
+
   </div>
 </body>
 </html>

@@ -9,7 +9,7 @@
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
     html, body { font-family: 'Inter', sans-serif; }
 
-    /* Gradient animation */
+    /* Animated gradient background */
     @keyframes gradientFlow {
       0% { background-position: 0% 50%; }
       50% { background-position: 100% 50%; }
@@ -25,8 +25,8 @@
       align-items: center;
       justify-content: center;
       padding: 2rem;
-      position: relative;
       overflow: hidden;
+      position: relative;
     }
 
     /* Glowing blobs */
@@ -54,7 +54,7 @@
       z-index: 0;
     }
 
-    /* Glass effect card */
+    /* Glassmorphic card */
     .glass-card {
       background: rgba(255, 255, 255, 0.08);
       border: 1px solid rgba(255, 255, 255, 0.2);
@@ -65,6 +65,7 @@
       z-index: 1;
       width: 100%;
       max-width: 480px;
+      position: relative;
     }
 
     .glass-card:hover {
@@ -72,9 +73,9 @@
       transform: translateY(-3px);
     }
 
-    /* Inputs */
+    /* Input fields */
     .form-input {
-      background: rgba(255, 255, 255, 0.08);
+      background: rgba(255, 255, 255, 0.1);
       border: 1px solid rgba(255,255,255,0.25);
       border-radius: 0.75rem;
       padding: 0.75rem 1rem;
@@ -86,12 +87,13 @@
     .form-input:focus {
       outline: none;
       border-color: #00ffff;
-      box-shadow: 0 0 12px rgba(0,255,255,0.5);
-      background: rgba(255,255,255,0.12);
+      box-shadow: 0 0 15px rgba(0,255,255,0.5);
+      background: rgba(255,255,255,0.15);
     }
 
     label {
       color: #cfcfcf;
+      font-weight: 500;
     }
 
     /* Buttons */
@@ -109,7 +111,7 @@
     }
 
     .btn-secondary {
-      background: rgba(255, 255, 255, 0.12);
+      background: rgba(255, 255, 255, 0.1);
       color: #e0e0e0;
       border: 1px solid rgba(255,255,255,0.2);
       border-radius: 0.75rem;
@@ -117,9 +119,9 @@
     }
 
     .btn-secondary:hover {
-      background: rgba(255,255,255,0.25);
+      background: rgba(255,255,255,0.2);
       box-shadow: 0 0 20px rgba(255,255,255,0.15);
-      transform: scale(1.03);
+      transform: scale(1.05);
     }
 
     /* Title glow */
@@ -131,30 +133,38 @@
     select option {
       color: #000;
     }
+
+    /* Neon divider */
+    .divider {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(0,255,255,0.6), transparent);
+      margin: 1.5rem 0;
+    }
   </style>
 </head>
 <body>
   <div class="glass-card p-10">
-    <h1 class="text-4xl font-bold text-center mb-8 text-glow">Create Your Account</h1>
+    <h1 class="text-4xl font-bold text-center mb-6 text-glow">CRUDero Create Account</h1>
+    <div class="divider"></div>
 
     <form action="<?= site_url('signup'); ?>" method="POST" class="space-y-6">
       <div>
-        <label for="first-name" class="block text-sm font-medium mb-2">First Name</label>
+        <label for="first-name" class="block text-sm mb-2">First Name</label>
         <input type="text" id="first-name" name="first-name" placeholder="John" class="form-input" />
       </div>
 
       <div>
-        <label for="last-name" class="block text-sm font-medium mb-2">Last Name</label>
+        <label for="last-name" class="block text-sm mb-2">Last Name</label>
         <input type="text" id="last-name" name="last-name" placeholder="Doe" class="form-input" />
       </div>
 
       <div>
-        <label for="email" class="block text-sm font-medium mb-2">Email Address</label>
+        <label for="email" class="block text-sm mb-2">Email Address</label>
         <input type="email" id="email" name="email" placeholder="you@example.com" class="form-input" />
       </div>
 
       <div>
-        <label for="user-type" class="block text-sm font-medium mb-2">User Type</label>
+        <label for="user-type" class="block text-sm mb-2">User Type</label>
         <select id="user-type" name="user-type" class="form-input">
           <option value="user" selected>User</option>
           <option value="admin">Admin</option>
@@ -162,15 +172,15 @@
       </div>
 
       <div>
-        <label for="password" class="block text-sm font-medium mb-2">Password</label>
+        <label for="password" class="block text-sm mb-2">Password</label>
         <input type="password" id="password" name="password" placeholder="••••••••" class="form-input" />
       </div>
 
-      <div class="flex gap-4">
-        <button type="submit" name="submit" class="flex-1 py-3 text-lg font-semibold btn-glow shadow-md">
+      <div class="flex gap-4 mt-6">
+        <button type="submit" name="submit" class="flex-1 py-3 text-lg font-semibold btn-glow">
           Sign Up
         </button>
-        <a href="<?= site_url('landing-page'); ?>" class="flex-1 text-center py-3 text-lg font-semibold btn-secondary shadow-sm">
+        <a href="<?= site_url('landing-page'); ?>" class="flex-1 text-center py-3 text-lg font-semibold btn-secondary">
           Back
         </a>
       </div>

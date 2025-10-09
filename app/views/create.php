@@ -6,162 +6,187 @@
   <title>CRUDero Create User</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
     html, body { font-family: 'Inter', sans-serif; }
 
-    /* Animated glowing gradient background */
-    @keyframes gradientGlow {
+    /* Animated gradient background (same as CRUDero) */
+    @keyframes gradientFlow {
       0% { background-position: 0% 50%; }
       50% { background-position: 100% 50%; }
       100% { background-position: 0% 50%; }
     }
 
     body {
-      background: linear-gradient(-45deg, #0f2027, #203a43, #2c5364, #1e3c72, #2a5298);
+      background: linear-gradient(-45deg, #1a1a2e, #16213e, #0f3460, #533483);
       background-size: 400% 400%;
-      animation: gradientGlow 15s ease infinite;
+      animation: gradientFlow 15s ease infinite;
+      min-height: 100vh;
       display: flex;
       align-items: center;
       justify-content: center;
-      min-height: 100vh;
-      padding: 2rem;
       overflow: hidden;
       position: relative;
+      padding: 2rem;
     }
 
-    /* Glowing effects behind the form */
+    /* Glowing ambient effects */
     body::before {
       content: '';
       position: absolute;
-      top: 20%;
+      top: 15%;
       left: 10%;
       width: 400px;
       height: 400px;
       background: radial-gradient(circle, rgba(0,255,255,0.4), transparent 70%);
-      filter: blur(100px);
+      filter: blur(120px);
       z-index: 0;
     }
 
     body::after {
       content: '';
       position: absolute;
-      bottom: 10%;
+      bottom: 15%;
       right: 10%;
       width: 400px;
       height: 400px;
       background: radial-gradient(circle, rgba(255,0,255,0.4), transparent 70%);
-      filter: blur(100px);
+      filter: blur(120px);
       z-index: 0;
     }
 
-    /* Card styling */
+    /* Glassmorphic card */
     .glass-card {
       background: rgba(255, 255, 255, 0.08);
-      border: 1px solid rgba(255, 255, 255, 0.15);
-      backdrop-filter: blur(20px);
-      box-shadow: 0 0 25px rgba(0, 255, 255, 0.15);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(25px);
+      border-radius: 1.5rem;
+      box-shadow: 0 0 25px rgba(0, 255, 255, 0.2);
       transition: all 0.3s ease-in-out;
-      position: relative;
       z-index: 1;
+      width: 100%;
+      max-width: 520px;
+      padding: 2.5rem;
     }
 
     .glass-card:hover {
-      box-shadow: 0 0 35px rgba(0, 255, 255, 0.25);
+      box-shadow: 0 0 35px rgba(0, 255, 255, 0.35);
       transform: translateY(-3px);
     }
 
-    /* Inputs glow effect */
+    /* Form fields */
     .glow-input {
       background: rgba(255, 255, 255, 0.08);
-      border: 1px solid rgba(255, 255, 255, 0.25);
+      border: 1px solid rgba(255,255,255,0.25);
+      border-radius: 0.75rem;
+      padding: 0.75rem 1rem;
       color: #e0e0e0;
-      transition: all 0.2s;
-    }
-
-    .glow-input:focus {
-      border-color: #00ffff;
-      box-shadow: 0 0 10px #00ffff;
-      outline: none;
-      background: rgba(255, 255, 255, 0.15);
-    }
-
-    /* Button glow */
-    .glow-btn {
-      background: linear-gradient(90deg, #00ffff, #0077ff);
-      color: #fff;
-      box-shadow: 0 0 15px rgba(0, 255, 255, 0.6);
+      width: 100%;
       transition: all 0.3s ease;
     }
 
-    .glow-btn:hover {
-      box-shadow: 0 0 25px rgba(0, 255, 255, 0.9);
+    .glow-input:focus {
+      outline: none;
+      border-color: #00ffff;
+      box-shadow: 0 0 12px rgba(0,255,255,0.5);
+      background: rgba(255,255,255,0.12);
+    }
+
+    label {
+      color: #cfcfcf;
+      font-weight: 500;
+      letter-spacing: 0.5px;
+    }
+
+    /* Buttons */
+    .btn-glow {
+      background: linear-gradient(90deg, #00ffff, #0077ff);
+      color: white;
+      border-radius: 0.75rem;
+      box-shadow: 0 0 15px rgba(0,255,255,0.5);
+      transition: all 0.3s ease;
+    }
+
+    .btn-glow:hover {
+      box-shadow: 0 0 25px rgba(0,255,255,0.9);
+      transform: scale(1.05);
+    }
+
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.12);
+      color: #e0e0e0;
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 0.75rem;
+      transition: all 0.3s ease;
+    }
+
+    .btn-secondary:hover {
+      background: rgba(255,255,255,0.25);
+      box-shadow: 0 0 20px rgba(255,255,255,0.15);
       transform: scale(1.03);
     }
 
-    /* Text */
+    /* Title glow */
     .text-glow {
-      text-shadow: 0 0 10px rgba(0,255,255,0.4);
+      color: white;
+      text-shadow: 0 0 15px rgba(0,255,255,0.6);
+      letter-spacing: 1px;
+    }
+
+    select option {
+      color: #000;
     }
   </style>
 </head>
 <body>
-  <div class="glass-card rounded-2xl max-w-lg w-full p-10">
-    <h2 class="text-4xl font-bold text-center mb-8 text-white tracking-wide text-glow">
-      CREATE USER ACCOUNT
-    </h2>
+  <div class="glass-card">
+    <h2 class="text-4xl font-bold text-center mb-8 text-glow">CRUDero Create Account</h2>
 
     <form action="<?=site_url('create');?>" method="POST" class="space-y-6">
       <!-- Last Name -->
       <div>
-        <label for="lastname" class="block text-gray-300 font-medium mb-2">LAST NAME</label>
-        <input type="text" name="lastname" id="lastname" required
-               class="w-full px-4 py-3 rounded-lg glow-input" />
+        <label for="lastname" class="block mb-2">LAST NAME</label>
+        <input type="text" name="lastname" id="lastname" required class="glow-input" />
       </div>
 
       <!-- First Name -->
       <div>
-        <label for="firstname" class="block text-gray-300 font-medium mb-2">FIRST NAME</label>
-        <input type="text" name="firstname" id="firstname" required
-               class="w-full px-4 py-3 rounded-lg glow-input" />
+        <label for="firstname" class="block mb-2">FIRST NAME</label>
+        <input type="text" name="firstname" id="firstname" required class="glow-input" />
       </div>
 
       <!-- Email -->
       <div>
-        <label for="email" class="block text-gray-300 font-medium mb-2">EMAIL</label>
-        <input type="email" name="email" id="email" required
-               class="w-full px-4 py-3 rounded-lg glow-input" />
+        <label for="email" class="block mb-2">EMAIL</label>
+        <input type="email" name="email" id="email" required class="glow-input" />
       </div>
 
       <!-- Password -->
       <div>
-        <label for="password" class="block text-gray-300 font-medium mb-2">PASSWORD</label>
-        <input type="password" name="password" id="password" required
-               class="w-full px-4 py-3 rounded-lg glow-input" />
+        <label for="password" class="block mb-2">PASSWORD</label>
+        <input type="password" name="password" id="password" required class="glow-input" />
       </div>
 
       <!-- Confirm Password -->
       <div>
-        <label for="confirm_password" class="block text-gray-300 font-medium mb-2">CONFIRM PASSWORD</label>
-        <input type="password" name="confirm_password" id="confirm_password" required
-               class="w-full px-4 py-3 rounded-lg glow-input" />
+        <label for="confirm_password" class="block mb-2">CONFIRM PASSWORD</label>
+        <input type="password" name="confirm_password" id="confirm_password" required class="glow-input" />
       </div>
 
-      <!-- Role Selection -->
+      <!-- Role -->
       <div>
-        <label for="role" class="block text-gray-300 font-medium mb-2">ROLE</label>
-        <select name="role" id="role" class="w-full px-4 py-3 rounded-lg glow-input">
+        <label for="role" class="block mb-2">ROLE</label>
+        <select name="role" id="role" class="glow-input">
           <option value="user" class="text-gray-900">User</option>
           <option value="admin" class="text-gray-900">Admin</option>
         </select>
       </div>
 
       <!-- Buttons -->
-      <div class="flex gap-4 pt-2">
-        <input type="submit" value="SUBMIT"
-          class="w-1/2 text-center rounded-lg py-3 font-semibold text-lg glow-btn cursor-pointer" />
+      <div class="flex gap-4 pt-4">
+        <input type="submit" value="SUBMIT" class="w-1/2 py-3 font-semibold text-lg btn-glow cursor-pointer" />
 
         <a href="<?=site_url('view');?>" 
-           class="w-1/2 text-center rounded-lg py-3 font-semibold text-lg text-gray-200 bg-gray-700/40 border border-gray-500/40 hover:bg-gray-600/50 transition duration-200 flex items-center justify-center">
+           class="w-1/2 text-center py-3 font-semibold text-lg btn-secondary flex items-center justify-center">
           BACK
         </a>
       </div>
