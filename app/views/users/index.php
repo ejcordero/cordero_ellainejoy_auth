@@ -3,124 +3,366 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>CRUDero Pagination</title>
-  <script src="https://cdn.tailwindcss.com"></script>
+  <title>Users Info</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+  <!-- SweetAlert2 -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
   <style>
-    /* Animated gradient background */
-    body {
-      background: linear-gradient(-45deg, #0f2027, #203a43, #2c5364, #1b2735);
-      background-size: 400% 400%;
-      animation: gradientShift 15s ease infinite;
-    }
-    @keyframes gradientShift {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
-    }
-    /* Frosted glass effect */
-    .glass {
-      background: rgba(255, 255, 255, 0.15);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      border: 1px solid rgba(255, 255, 255, 0.2);
-    }
+  body {
+    min-height: 100vh;
+    margin: 0;
+    font-family: "Poppins", sans-serif;
+    background: url('<?= base_url() . "public/image/BG.jpg"; ?>') no-repeat center center/cover;
+    padding: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    animation: pageFadeIn 0.8s ease forwards;
+  }
+
+  .card {
+    border-radius: 16px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+    background: rgba(255, 255, 255, 0.12);
+    backdrop-filter: blur(14px);
+    transform: translateY(25px);
+    opacity: 0;
+    animation: cardEnter 0.9s ease-out 0.2s forwards;
+  }
+
+  .dashboard-title {
+    font-size: 2.2rem;
+    font-weight: 700;
+    color: #000000ff;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 1.5rem;
+    opacity: 0;
+    transform: translateY(-15px);
+    animation: fadeSlideDown 0.9s ease-out 0.3s forwards;
+  }
+
+  .dashboard-title::after {
+    content: "";
+    display: block;
+    width: 80px;
+    height: 4px;
+    background: linear-gradient(90deg, #1e5631, #d4af37);
+    margin: 10px auto 0;
+    border-radius: 2px;
+  }
+
+  .welcome-card {
+    background: rgba(255, 255, 255, 0.25);
+    border: 1px solid rgba(212, 175, 55, 0.4);
+    border-radius: 12px;
+    padding: 15px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 25px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    opacity: 0;
+    transform: translateY(10px);
+    animation: fadeSlideUp 0.9s ease-out 0.5s forwards;
+  }
+
+  .welcome-card i {
+    font-size: 1.4rem;
+    color: #000000ff;
+  }
+
+  .welcome-card span {
+    color: #000000ff;
+    font-weight: 600;
+    font-size: 1.1rem;
+  }
+
+  .btn-create,
+  .btn-danger,
+  .btn-warning,
+  .btn-search {
+    transition: all 0.25s ease;
+    border-radius: 8px;
+  }
+
+  .btn-create {
+    background: linear-gradient(135deg, #1e5631, #a38b00);
+    border: none;
+    color: white;
+    font-weight: 500;
+    padding: 10px 24px;
+  }
+
+  .btn-create:hover {
+    transform: translateY(-2px);
+    background: #144423;
+  }
+
+  .btn-danger {
+    background-color: #9c1f0c;
+    border: none;
+    color: #fff;
+    font-weight: 500;
+    padding: 10px 24px;
+  }
+
+  .btn-danger:hover {
+    background-color: #c62828;
+    transform: translateY(-2px);
+  }
+
+  .btn-warning {
+    background-color: #d4af37;
+    color: #fff;
+    font-weight: 500;
+    padding: 8px 18px;
+  }
+
+  .btn-warning:hover {
+    background-color: #b9961b;
+    transform: translateY(-2px);
+  }
+
+  .btn-search {
+    background-color: #d4af37;
+    color: white;
+    border: none;
+    font-weight: 500;
+    padding: 8px 18px;
+  }
+
+  .btn-search:hover {
+    background-color: #b9961b;
+    transform: translateY(-2px);
+  }
+
+  /* Search bar layout */
+  .search-container {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .search-wrapper {
+    position: relative;
+    flex: 1;
+  }
+
+  .search-wrapper input {
+    width: 100%;
+    padding-right: 40px;
+  }
+
+  /* Clear (X) button — inside the input field */
+  #clearSearch {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    font-size: 20px;
+    color: #1e5631;
+    cursor: pointer;
+    display: none;
+    z-index: 2;
+    transition: all 0.2s ease;
+  }
+
+  #clearSearch:hover {
+    color: #b9961b;
+    transform: translateY(-50%) scale(1.15);
+  }
+
+  .table th {
+    background: #1e5631;
+    color: #ffffff;
+    text-transform: uppercase;
+    font-size: 13px;
+  }
+
+  .table tbody tr {
+    transition: background 0.25s ease, transform 0.25s ease;
+  }
+
+  .table tbody tr:hover {
+    background: rgba(212, 175, 55, 0.12);
+    transform: translateY(-2px);
+  }
+
+  /* Animations */
+  @keyframes pageFadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  @keyframes cardEnter {
+    from { opacity: 0; transform: translateY(25px) scale(0.98); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+  }
+
+  @keyframes fadeSlideDown {
+    from { opacity: 0; transform: translateY(-15px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes fadeSlideUp {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
   </style>
 </head>
 
-<body class="min-h-screen font-sans text-gray-200">
+<body>
+  <div class="card w-100" style="max-width:1100px;">
+    <div class="card-body">
+      <!-- Dashboard Title -->
+      <h2 class="dashboard-title">
+        <?= ($logged_in_user['role'] === 'admin') ? 'Admin Dashboard' : 'User Dashboard'; ?>
+      </h2>
 
-  <div class="max-w-7xl mx-auto px-4 py-10">
-
-    <!-- Header -->
-    <header class="glass rounded-2xl shadow-lg p-6 mb-10 flex flex-col md:flex-row md:items-center md:justify-between">
-      <h1 class="text-3xl md:text-4xl font-extrabold text-white tracking-wide drop-shadow-md">
-        Welcome to CRUDero
-      </h1>
-
-      <!-- Search Form -->
-      <form action="<?=site_url('users');?>" method="get" class="relative flex items-center mt-4 md:mt-0">
-        <?php
-          $q = '';
-          if (isset($_GET['q'])) {
-              $q = $_GET['q'];
-          }
-        ?>
-        <div class="relative">
-          <input id="searchInput"
-                 class="w-72 md:w-96 pl-4 pr-10 py-3 rounded-xl glass text-white placeholder-gray-300
-                        focus:ring-2 focus:ring-emerald-400 focus:outline-none text-base"
-                 name="q" type="text" placeholder="Search students..." value="<?=html_escape($q);?>">
-          <button type="button"
-                  class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-300 hover:text-white"
-                  aria-label="Clear search"
-                  onclick="
-                    document.getElementById('searchInput').value='';
-                    window.location.href='<?=site_url('users');?>';
-                  ">
-            ✕
-          </button>
+      <!-- Welcome -->
+      <?php if(!empty($logged_in_user)): ?>
+        <div class="welcome-card text-center">
+          <i class="bi bi-person-circle"></i>
+          <div>
+            Welcome back, <span><?= html_escape($logged_in_user['username']); ?></span> 
+          </div>
         </div>
-        <button type="submit"
-                class="ml-3 bg-emerald-500 hover:bg-emerald-600 text-white font-semibold px-6 py-3
-                       rounded-xl shadow-md transition">
-          Search
-        </button>
-      </form>
-    </header>
+      <?php else: ?>
+        <div class="alert alert-danger text-center">Logged in user not found</div>
+      <?php endif; ?>
 
-   <!-- Data Table -->
-<div class="glass rounded-2xl shadow-xl overflow-hidden">
-  <table class="min-w-full border-collapse">
-    <thead class="bg-emerald-600/90">
-      <tr>
-        <th class="px-6 py-3 text-left text-sm font-bold text-white uppercase tracking-wider">ID</th>
-        <th class="px-6 py-3 text-left text-sm font-bold text-white uppercase tracking-wider">Last Name</th>
-        <th class="px-6 py-3 text-left text-sm font-bold text-white uppercase tracking-wider">First Name</th>
-        <th class="px-6 py-3 text-left text-sm font-bold text-white uppercase tracking-wider">Email</th>
-        <th class="px-6 py-3 text-left text-sm font-bold text-white uppercase tracking-wider">Action</th>
-      </tr>
-    </thead>
-    <tbody class="divide-y divide-white/20">
-      <?php foreach (html_escape($user) as $users): ?>
-      <tr class="hover:bg-emerald-500/30 transition">
-        <td class="px-6 py-4"><?=$users['id']; ?></td>
-        <td class="px-6 py-4 font-medium"><?=$users['lastname']; ?></td>
-        <td class="px-6 py-4"><?=$users['firstname']; ?></td>
-        <td class="px-6 py-4"><?=$users['email']; ?></td>
-        <td class="px-6 py-4 space-x-2">
-          <a href="<?=site_url('/users/update/'.$users['id']);?>"
-             class="inline-block bg-emerald-500 hover:bg-emerald-600 text-white px-4 py-2
-                    rounded-lg text-sm font-semibold shadow transition">
-             Update
+      <!-- Top Controls -->
+      <div class="d-flex flex-column flex-md-row align-items-center justify-content-between mb-3 gap-3">
+        <?php if ($logged_in_user['role'] === 'admin'): ?>
+          <a href="<?= site_url('users/create'); ?>" class="btn btn-create">
+            <i class="bi bi-person-plus-fill"></i> Create New User
           </a>
-          <a href="<?=site_url('/users/delete/'.$users['id']);?>"
-             class="inline-block bg-red-500 hover:bg-red-600 text-white px-4 py-2
-                    rounded-lg text-sm font-semibold shadow transition">
-             Delete
-          </a>
-        </td>
-      </tr>
-      <?php endforeach; ?>
-    </tbody>
-  </table>
-</div>
+        <?php endif; ?>
 
+        <div class="search-container">
+          <form action="<?= site_url('users'); ?>" method="get" class="d-flex w-100">
+            <div class="search-wrapper">
+              <?php $q = isset($_GET['q']) ? $_GET['q'] : ''; ?>
+              <input id="searchInput" name="q" type="text" placeholder="Search users..." 
+                     value="<?= html_escape($q); ?>" class="form-control" />
+              <button type="button" id="clearSearch">
+                <i class="bi bi-x-circle"></i>
+              </button>
+            </div>
+            <button type="submit" class="btn btn-search ms-2">
+              <i class="bi bi-search"></i> Search
+            </button>
+          </form>
+        </div>
 
-    <!-- Pagination + Create Button Row -->
-    <div class="mt-8 flex items-center justify-between">
-      <!-- Pagination output -->
-      <div class="text-gray-300">
-        <?php echo $page;?>
+        <a href="<?= site_url('auth/logout'); ?>" class="btn btn-danger">
+          <i class="bi bi-box-arrow-right"></i> Logout
+        </a>
       </div>
 
-      <!-- Create New User button -->
-      <a href="<?=site_url('users/create'); ?>"
-         class="inline-block px-6 py-3 rounded-xl font-semibold text-white bg-emerald-500
-                hover:bg-emerald-600 shadow-md transition transform hover:scale-105">
-         + Create New User
-      </a>
-    </div>
+      <!-- Table -->
+      <div class="table-responsive">
+        <?php if(!empty($users)): ?>
+          <table class="table table-striped table-hover text-center align-middle">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Username</th>
+                <th>Email</th>
+                <?php if ($logged_in_user['role'] === 'admin'): ?>
+                  <th>Password</th>
+                  <th>Role</th>
+                <?php endif; ?>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <?php foreach ($users as $user): ?>
+              <tr>
+                <td><?= html_escape($user['id']); ?></td>
+                <td><?= html_escape($user['username']); ?></td>
+                <td><?= html_escape($user['email']); ?></td>
+                <?php if ($logged_in_user['role'] === 'admin'): ?>
+                  <td>*******</td>
+                  <td><?= html_escape($user['role']); ?></td>
+                <?php endif; ?>
+                <td>
+                  <?php if ($logged_in_user['role'] === 'admin'): ?>
+                    <a href="<?= site_url('/users/update/'.$user['id']);?>" class="btn btn-warning me-2">
+                      <i class="bi bi-pencil-square"></i> Update
+                    </a>
+                    <a href="<?= site_url('/users/delete/'.$user['id']);?>" 
+                       class="btn btn-danger" 
+                       onclick="confirmDelete(event, '<?= html_escape($user['username'], ENT_QUOTES) ?>', this.href)">
+                       <i class="bi bi-trash3-fill"></i> Delete
+                    </a>
+                  <?php else: ?>
+                    <span class="text-muted">View Only</span>
+                  <?php endif; ?>
+                </td>
+              </tr>
+              <?php endforeach; ?>
+            </tbody>
+          </table>
+        <?php else: ?>
+          <div class="alert alert-warning text-center">No users found.</div>
+        <?php endif; ?>
+      </div>
 
+      <div class="d-flex justify-content-center mt-3">
+        <?= $page; ?>
+      </div>
+    </div>
   </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const searchInput = document.getElementById("searchInput");
+      const clearBtn = document.getElementById("clearSearch");
+
+      function toggleClearButton() {
+        clearBtn.style.display = searchInput.value.trim() ? "block" : "none";
+      }
+
+      toggleClearButton();
+      searchInput.addEventListener("input", toggleClearButton);
+
+      clearBtn.addEventListener("click", function () {
+        searchInput.value = "";
+        toggleClearButton();
+        window.location.href = "<?= site_url('users'); ?>";
+      });
+    });
+
+    // SweetAlert2 Delete Confirmation
+    function confirmDelete(event, username, url) {
+      event.preventDefault();
+      Swal.fire({
+        title: 'Are you sure?',
+        text: `You are about to delete user "${username}". This action cannot be undone!`,
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#3085d6',
+        confirmButtonText: 'Yes, delete it!',
+        cancelButtonText: 'Cancel'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          window.location.href = url;
+        }
+      });
+    }
+  </script>
 </body>
 </html>
